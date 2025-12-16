@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html class="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Properties List Gallery - RealEstateOS</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "card-dark": "#1A202C",
+                        "card-light": "#FFFFFF",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body { font-family: 'Manrope', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111318; }
+        ::-webkit-scrollbar-thumb { background: #3b4354; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen flex flex-col font-display">
+
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-[#282e39] bg-background-light dark:bg-background-dark px-6 py-3 lg:px-10">
+    <div class="flex items-center gap-8">
+        <div class="flex items-center gap-4 text-slate-900 dark:text-white">
+            <div class="size-8 rounded-lg bg-primary flex items-center justify-center text-white">
+                <span class="material-symbols-outlined !text-[20px]">apartment</span>
+            </div>
+            <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">RealEstateOS</h2>
+        </div>
+        <nav class="hidden md:flex items-center gap-6 lg:gap-9">
+            <a class="text-slate-500 dark:text-slate-400 text-sm font-medium leading-normal hover:text-primary dark:hover:text-white transition-colors" href="#">Dashboard</a>
+            <a class="text-primary text-sm font-bold leading-normal" th:href="@{/properties/list}">Properties</a>
+            <a class="text-slate-500 dark:text-slate-400 text-sm font-medium leading-normal hover:text-primary dark:hover:text-white transition-colors" th:href="@{/owners/list}">Owners</a>
+        </nav>
+    </div>
+    <div class="flex flex-1 justify-end gap-4 md:gap-8 items-center">
+        <button class="relative bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-transparent hover:ring-primary transition-all bg-gray-600">
+            <div class="absolute bottom-0 right-0 size-2.5 bg-green-500 rounded-full border-2 border-white dark:border-[#111318]"></div>
+        </button>
+    </div>
+</header>
+
+<main class="flex-1 flex flex-col px-4 md:px-10 lg:px-40 py-8">
+    <div class="layout-content-container flex flex-col w-full max-w-[1280px] mx-auto flex-1 gap-8">
+
+        <div class="flex flex-col gap-6">
+            <div class="flex flex-wrap justify-between items-end gap-4">
+                <div class="flex flex-col gap-2">
+                    <h1 class="text-slate-900 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Properties Gallery</h1>
+                    <p class="text-slate-500 dark:text-[#9da6b9] text-base font-normal leading-normal">Manage your real estate inventory and listings.</p>
+                </div>
+                <a th:href="@{/properties/new}" class="flex items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-5 bg-primary hover:bg-blue-600 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-colors shadow-lg shadow-blue-500/20">
+                    <span class="material-symbols-outlined text-[20px]">add</span>
+                    <span class="truncate">Add Property</span>
+                </a>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-4 items-center justify-between bg-card-light dark:bg-[#1A202C] p-2 rounded-xl border border-slate-200 dark:border-[#282e39]">
+                <div class="w-full lg:w-auto flex-1 max-w-md px-2">
+                    <div class="flex w-full items-center h-10">
+                        <span class="material-symbols-outlined text-slate-400 dark:text-[#9da6b9] mr-2">search</span>
+                        <input class="w-full bg-transparent border-none focus:ring-0 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#9da6b9] text-sm" placeholder="Search... (Coming Soon)"/>
+                    </div>
+                </div>
+                <div class="flex gap-2 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0 px-2 no-scrollbar">
+                    <button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-[#282e39] hover:bg-slate-200 dark:hover:bg-[#353b47] px-4 transition-colors">
+                        <span class="text-slate-700 dark:text-white text-sm font-medium leading-normal whitespace-nowrap">Sort: Recent</span>
+                        <span class="material-symbols-outlined text-slate-700 dark:text-white text-[20px]">expand_more</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+            <a th:href="@{/properties/new}" class="group flex flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed border-slate-300 dark:border-[#3b4354] hover:border-primary dark:hover:border-primary bg-slate-50/50 dark:bg-[#151a23] hover:bg-slate-100 dark:hover:bg-[#1c222e] transition-all min-h-[360px] cursor-pointer">
+                <div class="size-16 rounded-full bg-slate-200 dark:bg-[#282e39] group-hover:bg-primary/20 flex items-center justify-center transition-colors">
+                    <span class="material-symbols-outlined text-slate-400 dark:text-[#9da6b9] group-hover:text-primary text-[32px]">add_home</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                    <span class="text-slate-900 dark:text-white font-bold text-lg">Add New Property</span>
+                    <span class="text-slate-500 dark:text-[#9da6b9] text-sm">Create a new listing</span>
+                </div>
+            </a>
+
+            <div th:each="prop : ${listaImoveis}" class="group relative flex flex-col bg-card-light dark:bg-[#1A202C] rounded-xl overflow-hidden border border-slate-200 dark:border-[#282e39] hover:border-primary/50 dark:hover:border-primary/50 hover:shadow-xl transition-all duration-300">
+
+                <div class="relative h-48 w-full overflow-hidden bg-gray-200 dark:bg-gray-800">
+                    <img th:src="${prop.img_url != null && prop.img_url != '' ? prop.img_url : 'https://via.placeholder.com/400x300?text=No+Image'}"
+                         alt="Property Image"
+                         class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                         onerror="this.src='https://via.placeholder.com/400x300?text=Error'"/>
+
+                    <div class="absolute top-3 left-3 px-3 py-1 bg-green-500/90 backdrop-blur-sm rounded-full text-white text-xs font-bold uppercase tracking-wider shadow-sm">
+                        Active
+                    </div>
+                </div>
+
+                <div class="flex flex-col flex-1 p-4 gap-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-primary text-xl font-bold">
+                                <span th:text="'R$ ' + ${prop.rentalValue}">R$ 0.00</span>
+                                <span class="text-slate-500 dark:text-slate-400 text-sm font-medium">/ mês</span>
+                            </h3>
+                            <p class="text-slate-900 dark:text-white font-bold mt-1 line-clamp-1" th:text="${prop.type}">Type</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2 text-sm text-slate-500 dark:text-[#9da6b9]">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">domain</span>
+                            <span th:text="${prop.type}">Type</span>
+                            <span class="w-1 h-1 rounded-full bg-slate-400"></span>
+                            <span th:text="'ID: ' + ${prop.id}">ID</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">location_on</span>
+                            <span class="truncate" th:text="${prop.adress}">Address</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto pt-4 border-t border-slate-100 dark:border-[#282e39] flex items-center justify-between">
+
+                        <div class="flex items-center gap-2" th:if="${prop.owner != null}">
+                            <img th:src="${prop.owner.img_url != null ? prop.owner.img_url : 'https://via.placeholder.com/50'}"
+                                 class="size-8 rounded-full object-cover ring-2 ring-white dark:ring-[#1A202C]"
+                                 onerror="this.src='https://via.placeholder.com/50'"/>
+                            <span class="text-sm font-medium text-slate-700 dark:text-slate-300 truncate max-w-[100px]" th:text="${prop.owner.name}">Owner</span>
+                        </div>
+                        <div class="flex items-center gap-2" th:unless="${prop.owner != null}">
+                            <span class="material-symbols-outlined text-slate-400">person_off</span>
+                            <span class="text-sm text-slate-400">Sem Dono</span>
+                        </div>
+
+                        <div class="flex gap-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+                            <a th:href="@{/properties/delete/{id}(id=${prop.id})}"
+                               onclick="return confirm('Tem certeza que deseja remover este imóvel?');"
+                               class="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-colors" title="Delete">
+                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${listaImoveis.empty}" class="text-center py-10">
+            <p class="text-slate-500 dark:text-slate-400 text-lg">Nenhum imóvel cadastrado.</p>
+        </div>
+
+    </div>
+</main>
+</body>
+</html>

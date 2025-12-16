@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Property Registration Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #1c1f27; }
+        ::-webkit-scrollbar-thumb { background: #3b4354; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111318] dark:text-white font-display overflow-hidden">
+<div class="flex h-screen w-full overflow-hidden">
+
+    <div class="w-64 flex-shrink-0 flex flex-col justify-between bg-white dark:bg-[#111318] border-r border-[#e5e7eb] dark:border-[#282e39] h-full overflow-y-auto">
+        <div class="flex flex-col gap-4 p-4">
+            <div class="flex items-center gap-3 px-2">
+                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 bg-primary/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary">apartment</span>
+                </div>
+                <h1 class="text-[#111318] dark:text-white text-lg font-bold leading-normal">Real Estate Mgr</h1>
+            </div>
+            <div class="flex flex-col gap-2 mt-4">
+                <a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-[#f3f4f6] dark:hover:bg-[#1c1f27] text-[#637588] dark:text-[#9da6b9] transition-colors group" href="#">
+                    <span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+                    <span class="text-sm font-medium">Dashboard</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-primary/10 text-primary" th:href="@{/properties/list}">
+                    <span class="material-symbols-outlined fill-1">domain</span>
+                    <span class="text-sm font-medium">Properties</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-[#f3f4f6] dark:hover:bg-[#1c1f27] text-[#637588] dark:text-[#9da6b9] transition-colors group" th:href="@{/owners/list}">
+                    <span class="material-symbols-outlined group-hover:text-primary">group</span>
+                    <span class="text-sm font-medium">Owners</span>
+                </a>
+            </div>
+        </div>
+        <div class="p-4 border-t border-[#e5e7eb] dark:border-[#282e39]">
+            <div class="flex items-center gap-3 px-3 py-2 cursor-pointer hover:bg-[#f3f4f6] dark:hover:bg-[#1c1f27] rounded-lg transition-colors">
+                <div class="bg-center bg-no-repeat bg-cover rounded-full size-10 bg-gray-600"></div>
+                <div class="flex flex-col">
+                    <p class="text-[#111318] dark:text-white text-sm font-medium">Admin User</p>
+                    <p class="text-[#637588] dark:text-[#9da6b9] text-xs">Admin</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-1 flex flex-col h-full overflow-hidden relative">
+        <header class="w-full px-6 py-5 border-b border-[#e5e7eb] dark:border-[#282e39] bg-white dark:bg-[#111318] flex flex-col gap-4">
+            <div class="flex flex-wrap items-center gap-2">
+                <a class="text-[#637588] dark:text-[#9da6b9] text-sm font-medium hover:text-primary transition-colors" th:href="@{/properties/list}">Home</a>
+                <span class="text-[#637588] dark:text-[#9da6b9] text-sm font-medium">/</span>
+                <a class="text-[#637588] dark:text-[#9da6b9] text-sm font-medium hover:text-primary transition-colors" th:href="@{/properties/list}">Properties</a>
+                <span class="text-[#637588] dark:text-[#9da6b9] text-sm font-medium">/</span>
+                <span class="text-[#111318] dark:text-white text-sm font-medium">New</span>
+            </div>
+            <div class="flex justify-between items-end">
+                <div>
+                    <h1 class="text-[#111318] dark:text-white text-3xl font-extrabold tracking-tight">Register New Property</h1>
+                    <p class="text-[#637588] dark:text-[#9da6b9] text-base font-normal mt-1">Enter details for the new unit to add it to the system.</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark p-6 md:p-10 flex justify-center">
+
+            <form th:action="@{/properties/save}" th:object="${propertyDTO}" method="post" class="w-full max-w-5xl flex flex-col lg:flex-row gap-8">
+
+                <div class="flex-1 flex flex-col gap-8">
+                    <section class="bg-white dark:bg-[#1c1f27] rounded-xl p-6 shadow-sm border border-[#e5e7eb] dark:border-[#282e39]">
+                        <h2 class="text-lg font-bold text-[#111318] dark:text-white mb-6 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">info</span> Core Details
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                            <label class="flex flex-col gap-2">
+                                <span class="text-[#111318] dark:text-white text-sm font-medium">Property Type</span>
+                                <div class="relative">
+                                    <select th:field="*{type}" class="w-full rounded-lg border border-[#d1d5db] dark:border-[#3b4354] bg-white dark:bg-[#111318] text-[#111318] dark:text-white h-12 px-4 focus:ring-2 focus:ring-primary focus:border-primary transition-shadow appearance-none cursor-pointer">
+                                        <option value="Apartamento">Apartamento</option>
+                                        <option value="Casa">Casa</option>
+                                        <option value="Comercial">Comercial</option>
+                                        <option value="Studio">Studio</option>
+                                    </select>
+                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#637588] dark:text-[#9da6b9]">
+                                        <span class="material-symbols-outlined">expand_more</span>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="flex flex-col gap-2">
+                                <span class="text-[#111318] dark:text-white text-sm font-medium">Rental Value</span>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[#637588] dark:text-[#9da6b9] font-medium">$</span>
+                                    <input th:field="*{rentalValue}" step="0.01" class="w-full rounded-lg border border-[#d1d5db] dark:border-[#3b4354] bg-white dark:bg-[#111318] text-[#111318] dark:text-white h-12 pl-8 pr-4 focus:ring-2 focus:ring-primary focus:border-primary transition-shadow placeholder:text-[#9da6b9]" placeholder="0.00" type="number" required/>
+                                </div>
+                            </label>
+
+                            <label class="flex flex-col gap-2 md:col-span-2">
+                                <span class="text-[#111318] dark:text-white text-sm font-medium">Address</span>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[#637588] dark:text-[#9da6b9]">
+                                        <span class="material-symbols-outlined text-[20px]">location_on</span>
+                                    </span>
+                                    <input th:field="*{adress}" class="w-full rounded-lg border border-[#d1d5db] dark:border-[#3b4354] bg-white dark:bg-[#111318] text-[#111318] dark:text-white h-12 pl-11 pr-4 focus:ring-2 focus:ring-primary focus:border-primary transition-shadow placeholder:text-[#9da6b9]" placeholder="123 Main St, City, Zip Code" type="text" required/>
+                                </div>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="bg-white dark:bg-[#1c1f27] rounded-xl p-6 shadow-sm border border-[#e5e7eb] dark:border-[#282e39]">
+                        <h2 class="text-lg font-bold text-[#111318] dark:text-white mb-6 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">person</span> Ownership
+                        </h2>
+                        <div class="flex flex-col gap-4">
+                            <label class="flex flex-col gap-2">
+                                <span class="text-[#111318] dark:text-white text-sm font-medium">Owner</span>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[#637588] dark:text-[#9da6b9]">
+                                        <span class="material-symbols-outlined text-[20px]">search</span>
+                                    </span>
+
+                                    <select th:field="*{owner}" class="w-full rounded-lg border border-[#d1d5db] dark:border-[#3b4354] bg-white dark:bg-[#111318] text-[#111318] dark:text-white h-12 pl-11 pr-4 focus:ring-2 focus:ring-primary focus:border-primary transition-shadow appearance-none cursor-pointer" required>
+                                        <option value="">Select an owner...</option>
+                                        <option th:each="dono : ${listaDonos}"
+                                                th:value="${dono.id}"
+                                                th:text="${dono.name} + ' (CPF: ' + ${dono.cpf} + ')'">
+                                        </option>
+                                    </select>
+
+                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#637588] dark:text-[#9da6b9]">
+                                        <span class="material-symbols-outlined">expand_more</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-[#637588] dark:text-[#9da6b9] mt-1">Can't find the owner? <a class="text-primary hover:underline font-medium" th:href="@{/owners/new}">Create new owner</a>.</p>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="bg-white dark:bg-[#1c1f27] rounded-xl p-6 shadow-sm border border-[#e5e7eb] dark:border-[#282e39]">
+                        <h2 class="text-lg font-bold text-[#111318] dark:text-white mb-6 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">image</span> Media
+                        </h2>
+                        <div class="flex flex-col gap-4">
+                            <label class="flex flex-col gap-2">
+                                <span class="text-[#111318] dark:text-white text-sm font-medium">Property Photo URL</span>
+                                <div class="flex gap-2">
+                                    <div class="relative flex-1">
+                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[#637588] dark:text-[#9da6b9]">
+                                            <span class="material-symbols-outlined text-[20px]">link</span>
+                                        </span>
+                                        <input th:field="*{img_url}" class="w-full rounded-lg border border-[#d1d5db] dark:border-[#3b4354] bg-white dark:bg-[#111318] text-[#111318] dark:text-white h-12 pl-11 pr-4 focus:ring-2 focus:ring-primary focus:border-primary transition-shadow placeholder:text-[#9da6b9]" placeholder="https://example.com/property-image.jpg" type="url"/>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="w-full lg:w-[360px] flex flex-col gap-6">
+                    <div class="bg-white dark:bg-[#1c1f27] rounded-xl p-4 shadow-sm border border-[#e5e7eb] dark:border-[#282e39] sticky top-6">
+                        <h3 class="text-sm font-bold text-[#637588] dark:text-[#9da6b9] uppercase tracking-wider mb-4">Actions</h3>
+
+                        <div class="mt-2 flex flex-col gap-3">
+                            <div class="h-6 w-3/4 bg-[#f3f4f6] dark:bg-[#282e39] rounded animate-pulse"></div>
+                            <div class="h-4 w-1/2 bg-[#f3f4f6] dark:bg-[#282e39] rounded animate-pulse"></div>
+                        </div>
+
+                        <div class="mt-6 pt-6 border-t border-[#e5e7eb] dark:border-[#282e39]">
+                            <p class="text-xs text-[#637588] dark:text-[#9da6b9] mb-4 text-center">Ready to add this property?</p>
+                            <div class="flex flex-col gap-3">
+                                <button type="submit" class="w-full h-12 bg-primary hover:bg-blue-600 text-white font-bold rounded-lg shadow-lg shadow-blue-500/20 transition-all flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-[20px]">add_business</span>
+                                    Register Property
+                                </button>
+
+                                <a th:href="@{/properties/list}" class="w-full h-12 flex items-center justify-center bg-transparent hover:bg-[#f3f4f6] dark:hover:bg-[#282e39] text-[#637588] dark:text-[#9da6b9] font-medium rounded-lg transition-colors border border-[#d1d5db] dark:border-[#3b4354]">
+                                    Cancel
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </main>
+    </div>
+</div>
+</body>
+</html>
